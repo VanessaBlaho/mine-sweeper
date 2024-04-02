@@ -3,8 +3,9 @@ import './App.css';
 
 function App() {
   const [board, setBoard] = useState([]);
-  const [flagMode, setFlagMode] = useState(false); // Flag mode toggle
+  const [flagMode, setFlagMode] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+
 
   useEffect(() => {
     initBoard();
@@ -58,8 +59,8 @@ function App() {
         // Define offsets for adjacent cells
         const offsets = [
           [-1, -1], [-1, 0], [-1, 1],
-          [0, -1],           [0, 1],
-          [1, -1],  [1, 0],  [1, 1]
+          [0, -1],[0, 1],
+          [1, -1],[1, 0],[1, 1]
         ];
   
         // Iterate over adjacent cells
@@ -80,6 +81,7 @@ function App() {
   }
 
   function handleClick(row, col) {
+    
     if (gameOver) return; // If game is over, do nothing
 
     if (flagMode) {
@@ -148,6 +150,7 @@ function App() {
   const toggleFlagMode = () => {
     setFlagMode(!flagMode);
   };
+
   const restartGame = () => {
     initBoard();
   };
@@ -163,7 +166,7 @@ function App() {
                 onClick={() => handleClick(cell.row, cell.col)}
               >
                 {cell.isOpen && !cell.isMine && cell.count > 0 && <span>{cell.count}</span>}
-                {cell.isOpen && cell.isMine && <span>💣</span>}
+                {cell.isOpen && cell.isMine && <img src="/dolbiteFish.png" alt="shark" className="cell__image"/>}
                 {cell.isFlagged && !cell.isOpen && <span>🚩</span>}
               </div>
             ))}
@@ -183,10 +186,11 @@ function App() {
           <button onClick={restartGame}>Restart Game</button>
         </div>
       )}
-      <div className="flag-toggle">
-        <button onClick={toggleFlagMode}>{flagMode ? 'Select Mode' : 'Flag Mode'}</button>
-      </div>
+         <button className={`toggle-button ${flagMode ? 'toggle-button--active' : ''}`} onClick={toggleFlagMode}>
+        <div className="toggle-button__indicator"></div>
+      </button>
     </div>
+    
   );
 }
 

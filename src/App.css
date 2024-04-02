@@ -30,7 +30,11 @@ body {
   display: inline-block;
   cursor: pointer;
 }
+.cell__image {
 
+  max-width: 100%;
+  max-height: 100%;
+}
 .cell.open {
   background-color: #fff; 
   border: 1px solid #003748;
@@ -44,4 +48,38 @@ body {
 .cell span {
   font-size: 16px;
   color: #FF5722;
+}
+
+.toggle-button {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 15px;
+}
+
+.toggle-button__indicator {
+  content: '';
+  position: absolute;
+  top: 5px;
+  bottom:5px;
+  left: 5px;
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle-button--active .toggle-button__indicator {
+  left: calc(100% - 28px);
+}
+
+.toggle-button--active {
+  background-color: #ff6b57;
+}
+
+.toggle-button--active .toggle-button__indicator {
+  background-color: #fff;
 }
