@@ -1,9 +1,10 @@
 
 
-@import url('https://fonts.googleapis.com/css2?family=Sniglet&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap');
+
 .sniglet-regular {
   font-family: "Sniglet", system-ui;
-  font-weight: 400;
+  /* font-weight: 400; */
   font-style: normal;
 }
 body {
@@ -20,7 +21,9 @@ body {
 .App {
   text-align: center;
 }
-
+.App__title {
+  font-weight: normal;
+}
 .cell {
   border: 1px solid white;
   border-radius: 15px;
@@ -46,8 +49,9 @@ body {
   margin-bottom: -1px;
 }
 .cell span {
-  font-size: 16px;
+  font-size: 50px;
   color: #FF5722;
+  font-weight: 800;
 }
 
 .toggle-button {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Board from './Board';
 
 function App() {
   const [board, setBoard] = useState([]);
@@ -34,7 +35,7 @@ function App() {
   }
 
   function generateMines(newBoard) {
-    const totalMines = 3; // Total number of mines you want on the board
+    const totalMines = 3; 
 
     // Generate unique random positions for mines
     const minePositions = [];
@@ -56,7 +57,7 @@ function App() {
       for (let j = 0; j < newBoard[0].length; j++) {
         let count = 0;
   
-        // Define offsets for adjacent cells
+        // -Define offsets for adjacent cells
         const offsets = [
           [-1, -1], [-1, 0], [-1, 1],
           [0, -1],[0, 1],
@@ -68,13 +69,13 @@ function App() {
           const newRow = i + rowOffset;
           const newCol = j + colOffset;
   
-          // Check if the adjacent cell is within the board boundaries and is a mine
+          // -Check if the adjacent cell is within the board boundaries and is a mine
           if (isValidCell(newRow, newCol) && newBoard[newRow][newCol].isMine) {
             count++;
           }
         });
   
-        // Update the count property of the current cell
+        // -Update the count property of the current cell
         newBoard[i][j].count = count;
       }
     }
@@ -85,25 +86,33 @@ function App() {
     if (gameOver) return; // If game is over, do nothing
 
     if (flagMode) {
-      // If in flag mode, toggle flag on the cell
+      // --If in flag mode, toggle flag on the cell
       const newBoard = [...board];
       newBoard[row][col].isFlagged = !newBoard[row][col].isFlagged;
       setBoard(newBoard);
     } else {
-      // If not in flag mode, handle cell click
+      // --If not in flag mode, handle cell click
       const newBoard = [...board];
 
-      // If the cell is already open or flagged, do nothing
+      // --If the cell is already open or flagged, do nothing
       if (newBoard[row][col].isOpen || newBoard[row][col].isFlagged) {
         return;
       }
 
-      // Mark the cell as open
+      // --Mark the cell as open
       newBoard[row][col].isOpen = true;
 
-      // Check if it's a mine, if yes, end the game
+      // Check if it's a mine, if yes, GAMEOVER
       if (newBoard[row][col].isMine) {
-        setGameOver(true); // Set game over state
+        newBoard.forEach((row, rowIndex) => {
+          row.forEach((cell, colIndex) => {
+            if (cell.isMine) {
+              newBoard[rowIndex][colIndex].isOpen = true;
+            }
+          });
+        });
+        
+        setGameOver(true); 
       } else {
         // If it's not a mine, reveal adjacent cells if count is 0
         if (newBoard[row][col].count === 0) {
@@ -111,13 +120,11 @@ function App() {
         }
       }
 
-      // Update the state with the new board
       setBoard(newBoard);
     }
   }
 
   function revealAdjacentCells(board, row, col) {
-    // Define offsets for adjacent cells
     const offsets = [
       [-1, -1], [-1, 0], [-1, 1],
       [0, -1],           [0, 1],
@@ -147,39 +154,19 @@ function App() {
     return row >= 0 && row < 5 && col >= 0 && col < 5;
   }
 
-  const toggleFlagMode = () => {
+  function toggleFlagMode(){
     setFlagMode(!flagMode);
   };
 
-  const restartGame = () => {
+  function restartGame(){
     initBoard();
   };
-  const renderBoard = () => {
-    return (
-      <div className="board">
-        {board.map((row, rowIndex) => (
-          <div key={rowIndex} className="row">
-            {row.map((cell, colIndex) => (
-              <div
-                key={colIndex}
-                className={`cell ${cell.isOpen ? 'open' : ''} ${cell.isFlagged ? 'flagged' : ''}`}
-                onClick={() => handleClick(cell.row, cell.col)}
-              >
-                {cell.isOpen && !cell.isMine && cell.count > 0 && <span>{cell.count}</span>}
-                {cell.isOpen && cell.isMine && <img src="/dolbiteFish.png" alt="shark" className="cell__image"/>}
-                {cell.isFlagged && !cell.isOpen && <span>🚩</span>}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  };
+
 
   return (
     <div className="App">
-      <h1>Shark Avoidance Adventure</h1>
-      {renderBoard()}
+      <h1 className="App__title">Shark Avoidance Adventure</h1>
+      <Board board={board} onClick={handleClick} />
       {gameOver && (
         <div>
           <p>Game Over! You clicked on a mine.</p>
