@@ -13,26 +13,29 @@ function App() {
   }, []);
 
   function initBoard() {
-    const newBoard = [];
-    for (let i = 0; i < 5; i++) {
-      const row = [];
-      for (let j = 0; j < 5; j++) {
-        row.push({
-          row: i,
-          col: j,
-          isMine: false,
-          isOpen: false,
-          isFlagged: false,
-          count: 0,
-        });
+    setBoard(prevBoard => {
+      const newBoard = [];
+      for (let i = 0; i < 5; i++) {
+        const row = [];
+        for (let j = 0; j < 5; j++) {
+          row.push({
+            row: i,
+            col: j,
+            isMine: false,
+            isOpen: false,
+            isFlagged: false,
+            count: 0,
+          });
+        }
+        newBoard.push(row);
       }
-      newBoard.push(row);
-    }
-    setBoard(newBoard);
-    generateMines(newBoard);
-    calculateAdjacentMines(newBoard);
-    setGameOver(false);
+      generateMines(newBoard);
+      calculateAdjacentMines(newBoard);
+      setGameOver(false);
+      return newBoard;
+    });
   }
+  
 
   function generateMines(newBoard) {
     const totalMines = 3; 
@@ -111,7 +114,7 @@ function App() {
             }
           });
         });
-        
+
         setGameOver(true); 
       } else {
         // If it's not a mine, reveal adjacent cells if count is 0

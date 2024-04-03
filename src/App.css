@@ -4,7 +4,7 @@
 
 .sniglet-regular {
   font-family: "Sniglet", system-ui;
-  /* font-weight: 400; */
+
   font-style: normal;
 }
 body {
@@ -32,6 +32,7 @@ body {
   height: 80px;
   display: inline-block;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .cell__image {
 
@@ -41,6 +42,7 @@ body {
 .cell.open {
   background-color: #fff; 
   border: 1px solid #003748;
+  
 }
 .cell:hover {
   background-color: #ddd;
@@ -86,4 +88,27 @@ body {
 
 .toggle-button--active .toggle-button__indicator {
   background-color: #fff;
+}
+@media screen and (max-width: 600px) {
+  .cell {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cell span {
+    font-size: 40px;
+  }
+}
+
+/* Adjust button size for smaller screens */
+@media screen and (max-width: 400px) {
+  .toggle-button {
+    width: 40px;
+    height: 20px;
+  }
+
+  .toggle-button__indicator {
+    width: 14px;
+    height: 14px;
+  }
 }
